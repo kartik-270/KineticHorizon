@@ -1,6 +1,6 @@
 import { Response } from 'express';
-import prisma from '../config/prisma';
-import { AuthRequest } from '../middleware/auth';
+import prisma from '../config/prisma.js';
+import { AuthRequest } from '../middleware/auth.js';
 
 export const getUsers = async (req: AuthRequest, res: Response) => {
   try {

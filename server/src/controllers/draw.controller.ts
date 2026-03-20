@@ -1,7 +1,7 @@
 import { Response } from 'express';
-import prisma from '../config/prisma';
-import { AuthRequest } from '../middleware/auth';
-import * as drawService from '../services/draw.service';
+import prisma from '../config/prisma.js';
+import { AuthRequest } from '../middleware/auth.js';
+import * as drawService from '../services/draw.service.js';
 
 export const getLatestDraw = async (req: AuthRequest, res: Response) => {
   try {

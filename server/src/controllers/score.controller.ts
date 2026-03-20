@@ -1,7 +1,7 @@
 import { Response } from 'express';
-import prisma from '../config/prisma';
-import { AuthRequest } from '../middleware/auth';
-import emailService from '../services/email.service';
+import prisma from '../config/prisma.js';
+import { AuthRequest } from '../middleware/auth.js';
+import emailService from '../services/email.service.js';
 
 export const addScore = async (req: AuthRequest, res: Response) => {
   try {

@@ -1,5 +1,5 @@
-import prisma from '../config/prisma';
-import emailService from './email.service';
+import prisma from '../config/prisma.js';
+import emailService from './email.service.js';
 
 export const runDrawSimulation = async (logicType: string) => {
   // Generate 5 winning numbers (1-45)

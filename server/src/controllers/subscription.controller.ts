@@ -1,8 +1,8 @@
 import { Request, Response } from 'express';
 import Stripe from 'stripe';
-import prisma from '../config/prisma';
-import { AuthRequest } from '../middleware/auth';
-import emailService from '../services/email.service';
+import prisma from '../config/prisma.js';
+import { AuthRequest } from '../middleware/auth.js';
+import emailService from '../services/email.service.js';
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_mock');
 

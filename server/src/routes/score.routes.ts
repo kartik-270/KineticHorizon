@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import * as scoreController from '../controllers/score.controller';
-import { authenticate } from '../middleware/auth';
+import * as scoreController from '../controllers/score.controller.js';
+import { authenticate } from '../middleware/auth.js';
 
 const router = Router();
 

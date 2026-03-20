@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import * as charityController from '../controllers/charity.controller';
-import { authenticate } from '../middleware/auth';
+import * as charityController from '../controllers/charity.controller.js';
+import { authenticate } from '../middleware/auth.js';
 
 const router = Router();
 

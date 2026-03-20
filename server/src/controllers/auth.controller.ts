@@ -1,9 +1,9 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
-import prisma from '../config/prisma';
-import { AuthRequest } from '../middleware/auth';
-import emailService from '../services/email.service';
+import prisma from '../config/prisma.js';
+import { AuthRequest } from '../middleware/auth.js';
+import emailService from '../services/email.service.js';
 import crypto from 'crypto';
 
 export const signup = async (req: Request, res: Response) => {

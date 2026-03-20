@@ -1,0 +1,127 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  INACTIVE
+  CANCELLED
+  LAPSED
+}
+
+enum PlanType {
+  MONTHLY
+  YEARLY
+}
+
+enum MatchType {
+  MATCH_3
+  MATCH_4
+  MATCH_5
+}
+
+enum PayoutStatus {
+  PENDING
+  PAID
+  REJECTED
+}
+
+enum DrawStatus {
+  SIMULATION
+  PUBLISHED
+}
+
+model User {
+  id                 String             @id @default(uuid())
+  email              String             @unique
+  password           String
+  name               String?
+  profileImage       String?            // Base64 or URL
+  role               Role               @default(USER)
+  subscriptionStatus SubscriptionStatus @default(INACTIVE)
+  stripeCustomerId   String?            @unique
+  isVerified         Boolean            @default(false) // Platform/Admin Verification
+  emailVerified      Boolean            @default(false) // Email Verification
+  verificationToken  String?            @unique
+  renewalDate        DateTime?
+  charityId          String?
+  charity            Charity?           @relation(fields: [charityId], references: [id])
+  charityPercentage  Float              @default(10.0) // Min 10%
+  scores             Score[]
+  subscriptions      Subscription[]
+  winnings           Winner[]
+  createdAt          DateTime           @default(now())
+  updatedAt          DateTime           @updatedAt
+}
+
+model Score {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  value     Int      // 1 - 45 (Stableford)
+  date      DateTime
+  createdAt DateTime @default(now())
+
+  @@index([userId, date(sort: Desc)])
+}
+
+model Charity {
+  id          String   @id @default(uuid())
+  name        String
+  description String
+  imageUrl    String?
+  websiteUrl  String?
+  isFeatured  Boolean  @default(false)
+  users       User[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Subscription {
+  id        String   @id @default(uuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  planType  PlanType
+  amount    Float
+  startDate DateTime
+  endDate   DateTime
+  status    SubscriptionStatus
+  createdAt DateTime @default(now())
+}
+
+model Draw {
+  id             String     @id @default(uuid())
+  drawDate       DateTime   @default(now())
+  winningNumbers String     // Comma separated e.g. "5,12,23,34,45"
+  status         DrawStatus @default(SIMULATION)
+  logicType      String     @default("RANDOM") // RANDOM or ALGORITHMIC
+  prizePool3     Float      @default(0) // 25%
+  prizePool4     Float      @default(0) // 35%
+  prizePool5     Float      @default(0) // 40%
+  winners        Winner[]
+}
+
+model Winner {
+  id            String       @id @default(uuid())
+  userId        String
+  user          User         @relation(fields: [userId], references: [id])
+  drawId        String
+  draw          Draw         @relation(fields: [drawId], references: [id])
+  matchType     MatchType
+  prizeAmount   Float
+  payoutStatus  PayoutStatus @default(PENDING)
+  proofUrl      String?      // Screenshot of scores
+  adminNotes    String?
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}

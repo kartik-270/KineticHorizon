@@ -16,6 +16,9 @@ export const metadata: Metadata = {
   title: "Kinetic Horizon | Precision Golf. Purposeful Impact.",
   description: "Join the world's most purposeful golf community. Elevate your game through precision tracking and meaningful global charity contributions.",
   keywords: ["golf", "impact", "charity", "subscriptions", "competitions", "kinetic", "horizon"],
+  verification: {
+    google: '39eC-3uLPsyxpmG-CvFLWTAO9DheJfC_kXXIPYFO2ck',
+  },
   authors: [{ name: "Kinetic Horizon Team" }],
   openGraph: {
     title: "Kinetic Horizon | Elevate Your Game",

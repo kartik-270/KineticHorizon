@@ -1,14 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
+import { LoadingState } from "@/components/LoadingState";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { ShieldCheck, Loader2, CheckCircle2, XCircle } from "lucide-react";
 import api from "@/lib/api";
 
-export default function VerifyPage() {
+function VerifyContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const token = searchParams.get("token");
@@ -80,5 +81,13 @@ export default function VerifyPage() {
         </Card>
       </motion.div>
     </div>
+  );
+}
+
+export default function VerifyPage() {
+  return (
+    <Suspense fallback={<LoadingState fullScreen />}>
+      <VerifyContent />
+    </Suspense>
   );
 }

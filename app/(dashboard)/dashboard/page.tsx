@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { motion } from "framer-motion";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
@@ -12,12 +12,13 @@ import {
   Clock
 } from "lucide-react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { LoadingState } from "@/components/LoadingState";
 import api from "@/lib/api";
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 import Link from "next/link";
 
-export default function DashboardPage() {
+function DashboardContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const success = searchParams.get('success');
@@ -279,5 +280,13 @@ export default function DashboardPage() {
           </Button>
         </Link>
     </>
+  );
+}
+
+export default function DashboardPage() {
+  return (
+    <Suspense fallback={<LoadingState />}>
+      <DashboardContent />
+    </Suspense>
   );
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { Card } from "../../../components/ui/Card";
 import { Button } from "../../../components/ui/Button";
 import { Heart, Search, CheckCircle2, ArrowLeft, Globe, Droplets, GraduationCap, Trees, Landmark } from "lucide-react";
@@ -9,10 +9,11 @@ import Link from "next/link";
 import { cn } from "../../../lib/utils";
 import { toast } from "sonner";
 import { useSearchParams } from "next/navigation";
+import { LoadingState } from "@/components/LoadingState";
 
 const ICONS: any = { Droplets, GraduationCap, Trees, Heart, Landmark };
 
-export default function CharityHubPage() {
+function CharityHubContent() {
   const [charities, setCharities] = useState<any[]>([]);
   const [selectedId, setSelectedId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
@@ -163,5 +164,13 @@ export default function CharityHubPage() {
          <p className="text-on-surface-variant font-bold text-sm uppercase tracking-[0.25em]">Global Transparency Protocol Active</p>
       </div>
     </div>
+  );
+}
+
+export default function CharityHubPage() {
+  return (
+    <Suspense fallback={<LoadingState />}>
+      <CharityHubContent />
+    </Suspense>
   );
 }
